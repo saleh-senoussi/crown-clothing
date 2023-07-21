@@ -14,7 +14,7 @@ const App = () => {
       <Route path='/' element={<Navigation/>}>
           <Route index element={<Suspense fallback={'Loading...'}><Home/></Suspense>} />
           <Route path='auth' element={<Suspense fallback={'Loading...'}><Authentication /></Suspense>}></Route>
-          <Route path='shop' element={<Suspense fallback={'Loading...'}><Shop /></Suspense>}></Route>
+          <Route path='shop/*' element={<Suspense fallback={'Loading...'}><Shop /></Suspense>}></Route>
           <Route path='checkout' element={<Suspense fallback={'Loading...'}><Checkout /></Suspense>}></Route>
       </Route>
     </Routes>
