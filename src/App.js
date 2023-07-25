@@ -4,8 +4,8 @@ import Navigation from './routes/navigation/navigation.component';
 import { Suspense, lazy, useEffect } from 'react';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
-import { createUserDocumentFromAuth, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
-import { setCurrentUser } from './store/user/user.action';
+import { createUserDocumentFromAuth, getCurrentUser, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
+import { checkUserSession, setCurrentUser } from './store/user/user.action';
 import { useDispatch } from 'react-redux';
 
 const Home = lazy(() => import('./routes/home/home.component'));
@@ -15,14 +15,7 @@ const App = () => {
   const dispatch = useDispatch(); // dispatch never changes
   
   useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-        if (user) {
-          createUserDocumentFromAuth(user);
-        }
-        dispatch(setCurrentUser(user));
-      });
-
-      return unsubscribe;
+    dispatch(checkUserSession());
       // eslint-disable-next-line
     }, []);
 
