@@ -2,7 +2,7 @@ import './cart-icon.styles.js';
 import { CartIconContainer, ShoppingIcon, ItemCount } from './cart-icon.styles.js';
 import { selectCartCount, selectIsCartOpen } from '../../store/cart/cart.selector.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsCartOpen } from '../../store/cart/cart.action.js';
+import { setIsCartOpen } from '../../store/cart/cart.reducer.js';
 
 const CartIcon = () => {
     const dispatch = useDispatch();

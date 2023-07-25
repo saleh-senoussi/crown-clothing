@@ -1,25 +1,34 @@
-import { applyMiddleware, compose, createStore } from "redux";
+import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from "./root-reducer";
-import storage from "redux-persist/lib/storage";
-import persistReducer from "redux-persist/es/persistReducer";
-import persistStore from "redux-persist/es/persistStore";
 import logger from "redux-logger";
 
-const persistConfig = {
-    key: 'root',
-    storage: storage,
-    blacklist: ['user']
-};
+// import { applyMiddleware, compose, createStore } from "redux";
+// import storage from "redux-persist/lib/storage";
+// import persistReducer from "redux-persist/es/persistReducer";
+// import persistStore from "redux-persist/es/persistStore";
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistConfig = {
+//     key: 'root',
+//     storage: storage,
+//     blacklist: ['user']
+// };
 
-const middlewares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const composeEnhancer = (process.env.NODE_ENV !== 'production' && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const middlewares = [process.env.NODE_ENV !== 'production' && logger].filter(
+    Boolean
+);
 
-const composedEnhancers = composeEnhancer(applyMiddleware(...middlewares));
+// const composeEnhancer = (process.env.NODE_ENV !== 'production' && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
-export const store = createStore(persistedReducer, undefined, composedEnhancers);
+// const composedEnhancers = composeEnhancer(applyMiddleware(...middlewares));
 
-export const persistor = persistStore(store);
+export const store = configureStore({
+    reducer: rootReducer,
+    // redux toolkit has redux-thung by default, providing custom middlewares would override that
+    middleware: (getDefaultMiddleware) => 
+        getDefaultMiddleware().concat(middlewares)
+});
+
+// export const persistor = persistStore(store);
 

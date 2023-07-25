@@ -5,8 +5,8 @@ import { Suspense, lazy, useEffect } from 'react';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
 import { createUserDocumentFromAuth, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
-import { setCurrentUser } from './store/user/user.action';
 import { useDispatch } from 'react-redux';
+import { setCurrentUser } from './store/user/user.reducer';
 
 const Home = lazy(() => import('./routes/home/home.component'));
 const Authentication = lazy(() => import('./routes/authentication/authentication.component'));
@@ -19,7 +19,9 @@ const App = () => {
         if (user) {
           createUserDocumentFromAuth(user);
         }
-        dispatch(setCurrentUser(user));
+        const pickedUser = user && (({ accessToken, email }) => ({ accessToken, email }))(user);
+        console.log(setCurrentUser(pickedUser));
+        dispatch(setCurrentUser(pickedUser));
       });
 
       return unsubscribe;
